@@ -36,7 +36,7 @@ module Gql
           {
             name: col.name,
             null: col.null,
-            gql_type: klass.primary_key == col.name ? 'GraphQL::Types::ID' : type_map[col.type]
+            gql_type: klass.primary_key == col.name ? 'ID' : type_map[col.type]
           }
         end
     end
@@ -68,5 +68,22 @@ module Gql
         klass.join("\n")
       end
     end
+    
+    
+    def class_with_arguments(namespace, name, superclass, fields)
+      wrap_in_namespace(namespace) do |indent|
+        klass = []
+        klass << sprintf("%sclass %s < %s", "  " * indent, name, superclass)
+
+        fields.each do |field|
+          klass << sprintf("%sargument :%s, %s, required: %s", "  " * (indent + 1), field[:name], field[:gql_type], true)
+        end
+
+        klass << sprintf("%send", "  " * indent)
+        klass.join("\n")
+      end
+    end
+    
+    
   end
 end

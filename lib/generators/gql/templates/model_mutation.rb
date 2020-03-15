@@ -18,9 +18,9 @@ module Mutations
 
     def find_or_build_model(id)
       if id
-        <%= @model_name %>.find(id)
+        ::<%= @model_name %>.find(id)
       else
-        <%= @model_name %>.new
+        ::<%= @model_name %>.new
       end
     end
   end
