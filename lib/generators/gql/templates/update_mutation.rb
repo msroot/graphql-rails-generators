@@ -9,7 +9,7 @@ module Mutations
     def resolve(attributes:, id:)
       model = ::<%= class_name %>.find(id)
 
-      model.update_attributes(attributes.to_h)
+      model.update(attributes.to_h)
       
       {
         <%= singular_name %>: model,

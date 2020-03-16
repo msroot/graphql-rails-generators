@@ -6,7 +6,6 @@ module Mutations
 
     def resolve(id:)
       model = ::<%= class_name %>.find(id)
-
       errors = model.destroy ? [] : model.errors.full_messages
             
       {
