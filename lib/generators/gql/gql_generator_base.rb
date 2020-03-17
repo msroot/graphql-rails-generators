@@ -10,8 +10,10 @@ module Gql
     end
 
     def type_map
+      # TODO: https://github.com/rails/rails/blob/4-2-stable/activerecord/lib/active_record/connection_adapters/postgresql_adapter.rb#L76
       {
         integer: 'Int',
+        bigint: 'Int',
         string: 'String',
         boolean: 'Boolean',
         decimal: 'Float',
@@ -29,7 +31,7 @@ module Gql
       associations = klass.reflect_on_all_associations(:belongs_to)
       bt_columns = associations.map(&:foreign_key)
 
-      klass.columns
+      klass.columns.sort_by(&:name)
         .reject { |col| bt_columns.include?(col.name) }
         .reject { |col| type_map[col.type].nil? }
         .map do |col|
